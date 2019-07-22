@@ -1,7 +1,7 @@
 class Quadtree {
   constructor(boundary, capacity=4) {
     // radius for displaying points
-    this.POINT_RADIUS = 5;
+    this.POINT_RADIUS = 3;
     
     this.capacity = 4;
     // List of [x, y, color] triples
@@ -64,6 +64,36 @@ class Quadtree {
       }
       return false;
     }
+  }
+  
+  /**
+   * Subdivide an overfull node into four smaller nodes
+   */
+  subdivide() {
+    // Subdivide the boundary and make 4 subtrees, one per
+    // sub-boundary.
+    let sub_boundaries = this.boundary.subdivide();
+    this.children = sub_boundaries.map((b) => 
+      new Quadtree(b, this.capacity));
+    
+    // Since there are only 4 subtrees, all leaves,
+    // this runs in O(4n) time where n is the number of
+    // points in the original overfull node.
+    for (let [x, y, c] of this.points) {
+      
+      // For each point, try each subtree and see if
+      // we can insert it. Stop on the first valid insertion.
+      for (let child of this.children) {
+        if (child.contains(x, y)) {
+          child.insert(x, y, c);
+          break;
+        }
+      }
+    }
+    
+    // Finally, clear the points list since we've moved
+    // all the points down the tree.
+    this.points = [];
   }
   
   contains(x, y) {

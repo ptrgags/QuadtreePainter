@@ -40,7 +40,9 @@ class Rectangle {
   }
   
   contains(x, y) {
-    return left <= x && x < right && top <= y && y < bottom;
+    return (
+      this.left <= x && x < this.right && 
+      this.top <= y && y < this.bottom);
   }
   
   /**
