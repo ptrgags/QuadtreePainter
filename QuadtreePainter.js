@@ -36,14 +36,21 @@ function setup() {
   reset();
 }
 
+function get_selected_color() {
+  return color(
+      components.red * 255, 
+      components.green * 255, 
+      components.blue * 255);
+}
+
 function draw() {
   background(64);
   
   root.draw(layers.leaves, layers.boundaries, layers.points);
   
   // Label the RGB components
-  noStroke();
-  fill(255);
+  stroke(0);
+  fill(get_selected_color());
   text(`RGB = (${components.red}, ${components.green}, ${components.blue})`, 10, 20);
 }
 
