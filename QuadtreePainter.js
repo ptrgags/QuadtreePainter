@@ -29,5 +29,5 @@ function setup() {
 function draw() {
   background(128);
   
-  root.draw();
+  root.draw(true, false, false);
 }

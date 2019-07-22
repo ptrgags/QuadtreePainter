@@ -127,26 +127,57 @@ class Quadtree {
     return this.boundary.contains(x, y);
   }
   
-  draw() {
+  draw_leaves() {
     if (this.is_leaf) {
       fill(this.color);
-      stroke(0);
+      noStroke();
       this.boundary.draw();
-      
+    } else {
+      for (let child of this.children) {
+        child.draw_leaves();
+      }
+    }
+  }
+  
+  draw_boundaries() {
+    noFill();
+    stroke(0);
+    this.boundary.draw();
+    
+    if (!this.is_leaf) {
+      for (let child of this.children) {
+        child.draw_boundaries();
+      }
+    }
+  }
+  
+  draw_points() {
+    if (this.is_leaf) {
       stroke(0);
       for (let [x, y, c] of this.points) {
         fill(c);
         ellipse(x, y, 2 * this.POINT_RADIUS, 2 * this.POINT_RADIUS);
       }
     } else {
-      noFill();
-      stroke(0);
-      this.boundary.draw();
-      
-      // Draw in depth-first order
       for (let child of this.children) {
-        child.draw();
+        child.draw_points();
       }
+    }
+  }
+  
+  
+  /**
+   * Draw the root of the tree in layers (leaf backgrounds, boundaries, then points)
+   */
+  draw(leaves=true, boundaries=true, points=true) {
+    if (leaves) {
+      this.draw_leaves();
+    }
+    if (boundaries) {
+      this.draw_boundaries();
+    }
+    if (points) {
+      this.draw_points();
     }
   }
 }
