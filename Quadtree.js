@@ -42,6 +42,33 @@ class Quadtree {
   }
   
   /**
+   * Average the colors of the points stored at this node.
+   * this only makes sense to call on leaves, but it won't
+   * break on interior nodes.
+   */
+  get color() {
+    if (this.points.length === 0) {
+      return color(0, 0, 0, 0);
+    }
+    
+    // Average the colors of all points in this tile.
+    let r_total = 0;
+    let g_total = 0;
+    let b_total = 0;
+    let count = 0;
+    for (let [, , c] of this.points) {
+      r_total += red(c);
+      g_total += green(c);
+      b_total += blue(c);
+      count++;
+    }
+    return color(
+      r_total / count, 
+      g_total / count, 
+      b_total / count); 
+  }
+  
+  /**
    * Insert a colored point at (x, y) into the quadtree
    */
   insert(x, y, point_color) {
@@ -102,17 +129,16 @@ class Quadtree {
   
   draw() {
     if (this.is_leaf) {
-      fill(0, 0, 0, 0);
+      fill(this.color);
       stroke(0);
       this.boundary.draw();
       
-      noStroke();
+      stroke(0);
       for (let [x, y, c] of this.points) {
         fill(c);
         ellipse(x, y, 2 * this.POINT_RADIUS, 2 * this.POINT_RADIUS);
       }
     } else {
-      
       noFill();
       stroke(0);
       this.boundary.draw();
