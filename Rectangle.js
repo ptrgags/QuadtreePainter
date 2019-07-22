@@ -39,7 +39,7 @@ class Rectangle {
     return [nw, ne, sw, se,];
   }
   
-  intersects(x, y) {
+  contains(x, y) {
     return left <= x && x < right && top <= y && y < bottom;
   }
   
