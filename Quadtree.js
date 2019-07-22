@@ -125,6 +125,27 @@ class Quadtree {
     this.points = [];
   }
   
+  erase_leaf(x, y) {
+    if (this.is_leaf) {
+      this.points = [];
+    } else {
+      for (let child of this.children) {
+        if (child.contains(x, y)) {
+          child.erase_leaf(x, y);
+          break;
+        }
+      }
+      
+      if (!this.is_overfull) {
+        this.points = [];
+        for (let child of this.children) {
+          this.points = this.points.concat(child.points);
+        }
+        this.children = null;
+      }
+    }
+  }
+  
   contains(x, y) {
     return this.boundary.contains(x, y);
   }

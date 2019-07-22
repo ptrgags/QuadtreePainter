@@ -48,7 +48,6 @@ function draw() {
 }
 
 function keyReleased() {
-  console.log(key);
   switch (key) {
     case 'q':
       components.red = 1 - components.red;
@@ -58,6 +57,9 @@ function keyReleased() {
       break;
     case 'e':
       components.blue = 1 - components.blue;
+      break;
+    case 'p':
+      saveCanvas('screenshot', 'png');
       break;
     case '1':
       layers.leaves = !layers.leaves;
@@ -77,10 +79,18 @@ function keyReleased() {
     default:
       break;
   }
+  return true;
 }
 
-function mouseReleased() {
-  let c = color(
-    components.red * 255, components.green * 255, components.blue * 255);
-  root.insert(mouseX, mouseY, c);
+function mouseReleased(e) {
+  if (e.ctrlKey) {
+    root.erase_leaf(mouseX, mouseY);
+    return false;
+  } else {
+    let c = color(
+      components.red * 255, components.green * 255, components.blue * 255);
+    root.insert(mouseX, mouseY, c);
+    return false;
+  }
+  return true;
 }
