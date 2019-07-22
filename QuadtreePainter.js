@@ -1,6 +1,11 @@
 const N = 100;
 
 var root;
+var components = {
+  red: 1,
+  green: 0,
+  blue: 0,
+};
 
 function insert_random(tree) {
   let x = random(width);
@@ -19,10 +24,6 @@ function setup() {
   
   let big_rect = new Rectangle(0, 0, width, height);
   root = new Quadtree(big_rect);
-  
-  for (let i = 0; i < N; i++) {
-    insert_random(root);
-  }
 }
 
  
@@ -30,4 +31,35 @@ function draw() {
   background(128);
   
   root.draw(true, false, false);
+  
+  // Label the RGB components
+  noStroke();
+  fill(255);
+  text(`RGB = (${components.red}, ${components.green}, ${components.blue})`, 10, 20);
+}
+
+function keyReleased() {
+  console.log(key);
+  switch (key) {
+    case 'q':
+      components.red = 1 - components.red;
+      break;
+    case 'w':
+      components.green = 1 - components.green;
+      break;
+    case 'e':
+      components.blue = 1 - components.blue;
+      break;
+    case ' ':
+      insert_random(root);
+      break;
+    default:
+      break;
+  }
+}
+
+function mouseReleased() {
+  let c = color(
+    components.red * 255, components.green * 255, components.blue * 255);
+  root.insert(mouseX, mouseY, c);
 }
