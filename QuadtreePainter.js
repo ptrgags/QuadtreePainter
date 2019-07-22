@@ -7,6 +7,12 @@ var components = {
   blue: 0,
 };
 
+var layers = {
+  leaves: true,
+  boundaries: true,
+  points: true,
+};
+
 function insert_random(tree) {
   let x = random(width);
   let y = random(height / 2, height);
@@ -19,18 +25,21 @@ function insert_random(tree) {
   tree.insert(x, y, c);
 }
 
-function setup() {
-  createCanvas(500, 500);
-  
+function reset() {
   let big_rect = new Rectangle(0, 0, width, height);
   root = new Quadtree(big_rect);
 }
 
- 
+function setup() {
+  createCanvas(500, 500);
+  
+  reset();
+}
+
 function draw() {
   background(128);
   
-  root.draw(true, false, false);
+  root.draw(layers.leaves, layers.boundaries, layers.points);
   
   // Label the RGB components
   noStroke();
@@ -50,8 +59,20 @@ function keyReleased() {
     case 'e':
       components.blue = 1 - components.blue;
       break;
+    case '1':
+      layers.leaves = !layers.leaves;
+      break;
+    case '2':
+      layers.boundaries = !layers.boundaries;
+      break;
+    case '3':
+      layers.points = !layers.points;
+      break;
     case ' ':
       insert_random(root);
+      break;
+    case 'Escape':
+      reset();
       break;
     default:
       break;

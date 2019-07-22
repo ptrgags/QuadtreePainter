@@ -74,6 +74,8 @@ class Quadtree {
   insert(x, y, point_color) {
     if (this.is_leaf) {
       // Add it to the point list
+      // TODO: If a point already exists at this x and y, don't re-add
+      // else we reach infinite recursion
       this.points.push([x, y, point_color,]);
       
       // If we overfilled the tile, subdivide it into 4.
