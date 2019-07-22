@@ -15,12 +15,11 @@ var layers = {
 
 function insert_random(tree) {
   let x = random(width);
-  let y = random(height / 2, height);
-  let c = random([
-    color(255, 0, 0),
-    color(0, 255, 0),
-    color(0, 0, 255),
-  ]);
+  let y = random(height);
+  let c = color(
+    random(255),
+    random(255),
+    random(255));
   
   tree.insert(x, y, c);
 }
@@ -31,13 +30,14 @@ function reset() {
 }
 
 function setup() {
-  createCanvas(500, 500);
+  c = createCanvas(500, 500);
+  c.parent('canvas-container');
   
   reset();
 }
 
 function draw() {
-  background(128);
+  background(64);
   
   root.draw(layers.leaves, layers.boundaries, layers.points);
   
@@ -70,9 +70,9 @@ function keyReleased() {
     case '3':
       layers.points = !layers.points;
       break;
-    case ' ':
+    case 'Enter':
       insert_random(root);
-      break;
+      return false;
     case 'Escape':
       reset();
       break;

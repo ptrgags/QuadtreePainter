@@ -12,9 +12,37 @@
 
   <!-- This line removes any default padding and style.
        You might only need one of these values set. -->
-  <style> body { padding: 0; margin: 0; } </style>
+  <style> 
+    body { 
+      padding: 0; 
+      margin: 0; 
+      font-family: sans-serif;
+    }
+  </style>
 </head>
-
 <body>
+<h3>Quadtree Painter</h3>
+<p>
+  This is a quick one-day project for me to experiment with quadtrees. Click anywhere on 
+  the canvas to add a point to the quadtree. Upon adding a fifth point, the main tile will
+  overflow and subdivide into 4 quarter-tiles. This process can be repeated to add finer detail.
+</p>
+<p>
+  The tiles are colored by the average color of all points in the tile. If edited carefully, one
+  can make interesting patterns. To create a random pattern, simply press Enter a bunch of times.
+</p>
+<div>
+  <p><b>Controls:</b></p>
+  <ul>
+    <li>Click - Add a point to the canvas</li>
+    <li>Ctrl + Click - Remove all points for the quadtree leaf node under the cursor</li>
+    <li>Enter - Add a randomly colored and position to the canvas</li>
+    <li>Q, W, E - Select a point color by toggling red/green/blue channels</li>
+    <li>1, 2, 3 - Toggle display of leaf node background color, boundaries, and points</li>
+    <li>P - Save a screenshot</li>
+    <li>Esc - Clear canvas</li>
+  </ul>
+</div>
+<div id="canvas-container"></div>
 </body>
 </html>
